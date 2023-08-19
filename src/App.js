@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
+import TodoForm from './Components/TodoForm';
+import TodoList from './Components/TodoList';
+const App = () => {
+  const [todo,setTodo] = useState("");
+  const [todoList, setTodoList] = useState([]);
+  const [editId,seteditId] = useState(0);
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    if(editId!==0){
+      const updatedTodoList = [...todoList];
+      updatedTodoList.forEach((item) => {
+        if (item.id === editId) {
+          item.todo = todo; 
+        }
+      });
+      setTodoList(updatedTodoList);
+      seteditId(0);
+      setTodo("");
+      return;
 
-function App() {
+    }
+
+    if(todo!==""){
+      setTodoList([{id :`${Date.now()}`,todo},...todoList]);
+      setTodo("");
+    }
+  }
+  const handleDelete = (id) =>{
+    const delTodo = todoList.filter((t)=> t.id!==id);
+    setTodoList([...delTodo]); 
+  }
+  const handleEdit = (id) =>{
+    const editTodo = todoList.find((t)=>t.id===id);
+    setTodo(editTodo.todo);
+    seteditId(id);
+     
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+     <div className = 'container'>
+        <h1>Todo App</h1>
+        <TodoForm handleSubmit={handleSubmit} 
+                  todo={todo} 
+                  setTodo={setTodo} 
+                  editId={editId} />
+
+        <TodoList todoList={todoList} handleEdit={handleEdit} handleDelete={handleDelete}/>
+     </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
