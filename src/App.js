@@ -40,7 +40,7 @@ const App = () => {
   return (
     <div className='App'>
      <div className = 'container'>
-        <h1>Todo App</h1>
+        <h1>Todo App </h1>
         <TodoForm handleSubmit={handleSubmit} 
                   todo={todo} 
                   setTodo={setTodo} 
@@ -48,6 +48,7 @@ const App = () => {
 
         <TodoList todoList={todoList} handleEdit={handleEdit} handleDelete={handleDelete}/>
      </div>
+     <footer className ="footer">Developed by Shanmukh</footer>
     </div>
   )
 }
